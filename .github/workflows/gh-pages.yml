@@ -44,6 +44,6 @@ jobs:
         with:
           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           user_name: alexk2037
-          user_email: alexkappen@learningmate.com
+          user_email: alex.kappen@learningmate.com
           publish_branch: gh-pages
           publish_dir: ./public
