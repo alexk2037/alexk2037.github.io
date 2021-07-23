@@ -1,4 +1,4 @@
-baseURL = "http://localhost"
+baseURL = "https://alexk2037.github.io/"
 title = "Geekdocs"
 theme = "hugo-geekdoc"
 
