@@ -3,13 +3,13 @@
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <meta name=color-scheme content="light dark">
-<meta name=description content="Git & Vosk Server files
-$ git clone https://github.com/alphacep/vosk-server.git Install dependencies
-$ python3 -m pip install aiortc aiohttp aiorpc vosk $ python3 -m pip install websockets Download Speech Recognition model:
-Models can be found here: VOSK Models (alphacephei.com)
-# /home/$USER $ wget http://alphacephei.com/vosk/models/vosk-model-small-en-us-0.15.zip # $ sudo apt-get install unzip $ unzip vosk-model-small-en-us-0.15.zip # Rename the downloaded model for Vosk API to work $ mv vosk-model-small-en-us-0.15 model Create .service File
-$ mkdir -p ~/.">
-<title>Vosk Setup | Step by Step Dev</title>
+<meta name=description content="Install Python 3.8
+What version of Python can I use? ↕  For Vosk, nshmyrev on GitHub recommends Python 3.8   Follow the article step by step: How to install Python 3.8 on Debian 10 (Linuxize)
+To set Python 3.8.2 as the default simply add the following to the end of your Shell profile
+# ~/.Shellrc alias python3=&#34;python3.8&#34; Python Venv Setup
+Create a virtual environment:
+# Use Python 3.8.2 $ python3 -m venv venv $ source venv/bin/activate ">
+<title>General Python Setup | Step by Step Dev</title>
 <link rel=icon href=/favicon/favicon-32x32.png type=image/x-icon>
 <script src=/js/darkmode-ce906ea916.min.js></script>
 <link rel=preload as=font href=/fonts/Metropolis.woff2 type=font/woff2 crossorigin=anonymous>
@@ -78,14 +78,14 @@ Jitsi Setup
 <ul class=gdoc-nav__list>
 <li>
 <span class=flex>
-<a href=/debian10/vosk/python/ class=gdoc-nav__entry>
+<a href=/debian10/vosk/python/ class="gdoc-nav__entry is-active">
 General Python Setup
 </a>
 </span>
 </li>
 <li>
 <span class=flex>
-<a href=/debian10/vosk/vosk/ class="gdoc-nav__entry is-active">
+<a href=/debian10/vosk/vosk/ class=gdoc-nav__entry>
 Vosk Setup
 </a>
 </span>
@@ -107,73 +107,28 @@ hidden-mobile
 hidden" itemprop=breadcrumb>
 </div>
 <article class="gdoc-markdown gdoc-markdown__align--left">
-<h1>Vosk Setup</h1>
-<p><strong>Git & Vosk Server files</strong></p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>$ git clone https://github.com/alphacep/vosk-server.git
-</code></pre></div><p><strong>Install dependencies</strong></p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>$ python3 -m pip install aiortc aiohttp aiorpc vosk 
-$ python3 -m pip install websockets
-</code></pre></div><p><strong>Download Speech Recognition model:</strong></p>
-<p>Models can be found here: <a class=gdoc-markdown__link href=https://alphacephei.com/vosk/models>VOSK Models (alphacephei.com)</a></p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=c1># /home/$USER</span>
-$ wget http://alphacephei.com/vosk/models/vosk-model-small-en-us-0.15.zip
-<span class=c1># $ sudo apt-get install unzip</span>
-$ unzip vosk-model-small-en-us-0.15.zip
-<span class=c1># Rename the downloaded model for Vosk API to work</span>
-$ mv vosk-model-small-en-us-0.15 model
-</code></pre></div><p><strong>Create .service File</strong></p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>$ mkdir -p ~/.config/systemd/user
-$ <span class=nb>cd</span> ~/.config/systemd/user
-$ touch vosk_service.service
-<span class=c1># Check</span>
-$ systemctl --user list-unit-files <span class=p>|</span> grep vosk_service
-&gt;&gt;&gt; vosk_service.service           disabled
-<span class=c1># Open service file</span>
-$ nvim ~/.config/systemd/user/vosk_service.service
-</code></pre></div><p><strong>Write to .service File</strong></p>
-<p>Open .service file with your text editor then paste the following. Make sure to replace <code>kapp</code> with your username instead. If you are unsure about your username, type <code>$ echo $USER</code></p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=c1># systemd unit file for the Vosk Service</span>
-
-<span class=o>[</span>Unit<span class=o>]</span>
-<span class=c1># Human readable name of the unit</span>
-<span class=nv>Description</span><span class=o>=</span>Vosk Service
-
-<span class=o>[</span>Service<span class=o>]</span>
-<span class=c1># Command to execute when the service is started</span>
-<span class=nv>WorkingDirectory</span><span class=o>=</span>/home/kapp
-<span class=nv>ExecStart</span><span class=o>=</span>/home/kapp/venv/bin/python3.8 /home/kapp/vosk-server/websocket/asr_server.py
-
-<span class=c1># Disable Python&#39;s buffering of STDOUT and STDERR, so that output from the</span>
-<span class=c1># service shows up immediately in systemd&#39;s logs</span>
-<span class=nv>Environment</span><span class=o>=</span><span class=nv>PYTHONUNBUFFERED</span><span class=o>=</span><span class=m>1</span>
-
-<span class=c1># Automatically restart the service if it crashes</span>
-<span class=nv>Restart</span><span class=o>=</span>on-failure
-
-<span class=c1># Our service will notify systemd once it is up and running</span>
-<span class=nv>Type</span><span class=o>=</span>simple
-
-<span class=c1># Use a dedicated user to run our service (only for system services)</span>
-<span class=c1># User=python_demo_service</span>
-
-<span class=o>[</span>Install<span class=o>]</span>
-<span class=c1># Tell systemd to automatically start this service when the system boots</span>
-<span class=c1># (assuming the service is enabled)</span>
-<span class=nv>WantedBy</span><span class=o>=</span>default.target
-</code></pre></div><p><strong>Activate service</strong></p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>$ systemctl --user daemon-reload
-$ systemctl --user status vosk_service
-$ systemctl --user start vosk_service
-$ systemctl --user status vosk_service
-&gt;&gt;&gt; <span class=c1># Vosk Service should be green and running now!</span>
-<span class=c1># To exit status log, press &#39;q&#39; (for quit) on your keyboard</span>
-
-<span class=c1># Check logs</span>
-$ sudo -s
-$ grep <span class=s1>&#39;Vosk Service&#39;</span> /var/log/syslog
-$ grep <span class=s1>&#39;python&#39;</span> /var/log/syslog
-</code></pre></div><p><strong>Enable Vosk to start on boot up:</strong></p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>$ systemctl --user <span class=nb>enable</span> vosk_service
+<h1>General Python Setup</h1>
+<p><strong>Install Python 3.8</strong></p>
+<div class=gdoc-expand>
+<label class="gdoc-expand__head flex justify-between" for=99c3566a-0>
+<span>What version of Python can I use?</span>
+<span>↕</span>
+</label>
+<input id=99c3566a-0 type=checkbox class="gdoc-expand__control hidden">
+<div class="gdoc-markdown--nested gdoc-expand__content">
+<a class=gdoc-markdown__link href=https://github.com/alphacep/vosk-api/issues/108#issuecomment-632835185>For Vosk, nshmyrev on GitHub recommends Python 3.8</a>
+</div>
+</div>
+<p>Follow the article step by step:
+<a class=gdoc-markdown__link href=https://linuxize.com/post/how-to-install-python-3-8-on-debian-10/>How to install Python 3.8 on Debian 10 (Linuxize)</a></p>
+<p>To set Python 3.8.2 as the default simply add the following to the end of your Shell profile</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=c1># ~/.Shellrc</span>
+<span class=nb>alias</span> <span class=nv>python3</span><span class=o>=</span><span class=s2>&#34;python3.8&#34;</span>
+</code></pre></div><p><strong>Python Venv Setup</strong></p>
+<p>Create a virtual environment:</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=c1># Use Python 3.8.2</span>
+$ python3 -m venv venv
+$ <span class=nb>source</span> venv/bin/activate
 </code></pre></div>
 </article>
 <div class="gdoc-page__footer flex flex-wrap justify-between">

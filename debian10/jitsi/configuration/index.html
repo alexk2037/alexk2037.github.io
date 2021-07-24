@@ -3,13 +3,11 @@
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <meta name=color-scheme content="light dark">
-<meta name=description content="Git & Vosk Server files
-$ git clone https://github.com/alphacep/vosk-server.git Install dependencies
-$ python3 -m pip install aiortc aiohttp aiorpc vosk $ python3 -m pip install websockets Download Speech Recognition model:
-Models can be found here: VOSK Models (alphacephei.com)
-# /home/$USER $ wget http://alphacephei.com/vosk/models/vosk-model-small-en-us-0.15.zip # $ sudo apt-get install unzip $ unzip vosk-model-small-en-us-0.15.zip # Rename the downloaded model for Vosk API to work $ mv vosk-model-small-en-us-0.15 model Create .service File
-$ mkdir -p ~/.">
-<title>Vosk Setup | Step by Step Dev</title>
+<meta name=description content="Set up Jigasi    # Install Jigasi $ sudo apt install jigasi Inteded SIP User: jigasisipuser@sipprovider.com
+Inteded Password: abc123321bca
+Go through Jigasi properties file and uncomment all the transcription-related things. All the settings are under the comment that says &ldquo;# Options regarding Transcription&rdquo;:
+$ vim /etc/jitsi/jigasi/sip-communicator.properties # Optional: Comment out SIP properties in Jigasi config $ vim /etc/jitsi/jigasi/sip-communicator.properties # Align cursor at start of this line: net.java.sip.communicator.impl.protocol.sip.acc1403273890647=acc1403273890647 # Using vim in Windows Terminal, perform # <Ctrl-Alt-V> to enter Visual Block mode # <Ctrl-]> to highlight entire block # <Ctrl-I> to enter multiline insert mode # press '# ' on keyboard # <Esc> # et Voila!">
+<title>Configuration | Step by Step Dev</title>
 <link rel=icon href=/favicon/favicon-32x32.png type=image/x-icon>
 <script src=/js/darkmode-ce906ea916.min.js></script>
 <link rel=preload as=font href=/fonts/Metropolis.woff2 type=font/woff2 crossorigin=anonymous>
@@ -59,7 +57,7 @@ $ mkdir -p ~/.">
 <ul class=gdoc-nav__list>
 <li>
 <span class=flex>
-<a href=/debian10/jitsi/configuration/ class=gdoc-nav__entry>
+<a href=/debian10/jitsi/configuration/ class="gdoc-nav__entry is-active">
 Configuration
 </a>
 </span>
@@ -85,7 +83,7 @@ General Python Setup
 </li>
 <li>
 <span class=flex>
-<a href=/debian10/vosk/vosk/ class="gdoc-nav__entry is-active">
+<a href=/debian10/vosk/vosk/ class=gdoc-nav__entry>
 Vosk Setup
 </a>
 </span>
@@ -107,73 +105,145 @@ hidden-mobile
 hidden" itemprop=breadcrumb>
 </div>
 <article class="gdoc-markdown gdoc-markdown__align--left">
-<h1>Vosk Setup</h1>
-<p><strong>Git & Vosk Server files</strong></p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>$ git clone https://github.com/alphacep/vosk-server.git
-</code></pre></div><p><strong>Install dependencies</strong></p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>$ python3 -m pip install aiortc aiohttp aiorpc vosk 
-$ python3 -m pip install websockets
-</code></pre></div><p><strong>Download Speech Recognition model:</strong></p>
-<p>Models can be found here: <a class=gdoc-markdown__link href=https://alphacephei.com/vosk/models>VOSK Models (alphacephei.com)</a></p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=c1># /home/$USER</span>
-$ wget http://alphacephei.com/vosk/models/vosk-model-small-en-us-0.15.zip
-<span class=c1># $ sudo apt-get install unzip</span>
-$ unzip vosk-model-small-en-us-0.15.zip
-<span class=c1># Rename the downloaded model for Vosk API to work</span>
-$ mv vosk-model-small-en-us-0.15 model
-</code></pre></div><p><strong>Create .service File</strong></p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>$ mkdir -p ~/.config/systemd/user
-$ <span class=nb>cd</span> ~/.config/systemd/user
-$ touch vosk_service.service
-<span class=c1># Check</span>
-$ systemctl --user list-unit-files <span class=p>|</span> grep vosk_service
-&gt;&gt;&gt; vosk_service.service           disabled
-<span class=c1># Open service file</span>
-$ nvim ~/.config/systemd/user/vosk_service.service
-</code></pre></div><p><strong>Write to .service File</strong></p>
-<p>Open .service file with your text editor then paste the following. Make sure to replace <code>kapp</code> with your username instead. If you are unsure about your username, type <code>$ echo $USER</code></p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=c1># systemd unit file for the Vosk Service</span>
+<h1>Configuration</h1>
+<div class=gdoc-page__anchorwrap>
+<h3 id=set-up-jigasi>
+Set up Jigasi
+<a data-clipboard-text=https://alexk2037.github.io/debian10/jitsi/configuration/#set-up-jigasi class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Set up Jigasi" href=#set-up-jigasi><svg class="icon gdoc_link"><use xlink:href="#gdoc_link"/></svg>
+</a>
+</h3>
+</div><div class=highlight><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=c1># Install Jigasi</span>
+$ sudo apt install jigasi
+</code></pre></div><p>Inteded SIP User: <code>jigasisipuser@sipprovider.com</code></p>
+<p>Inteded Password: <code>abc123321bca</code></p>
+<p>Go through Jigasi properties file and uncomment all the transcription-related things. All the settings are under the comment that says &ldquo;# Options regarding Transcription&rdquo;:</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>$ vim /etc/jitsi/jigasi/sip-communicator.properties
+</code></pre></div><p><img src=https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8ac68d55-9511-42ea-8838-6a4a3b5bec32/Untitled.png alt=https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8ac68d55-9511-42ea-8838-6a4a3b5bec32/Untitled.png></p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=c1># Optional: Comment out SIP properties in Jigasi config</span>
 
-<span class=o>[</span>Unit<span class=o>]</span>
-<span class=c1># Human readable name of the unit</span>
-<span class=nv>Description</span><span class=o>=</span>Vosk Service
+$ vim /etc/jitsi/jigasi/sip-communicator.properties
 
-<span class=o>[</span>Service<span class=o>]</span>
-<span class=c1># Command to execute when the service is started</span>
-<span class=nv>WorkingDirectory</span><span class=o>=</span>/home/kapp
-<span class=nv>ExecStart</span><span class=o>=</span>/home/kapp/venv/bin/python3.8 /home/kapp/vosk-server/websocket/asr_server.py
+<span class=c1># Align cursor at start of this line:</span>
+net.java.sip.communicator.impl.protocol.sip.acc1403273890647<span class=o>=</span>acc1403273890647
 
-<span class=c1># Disable Python&#39;s buffering of STDOUT and STDERR, so that output from the</span>
-<span class=c1># service shows up immediately in systemd&#39;s logs</span>
-<span class=nv>Environment</span><span class=o>=</span><span class=nv>PYTHONUNBUFFERED</span><span class=o>=</span><span class=m>1</span>
+<span class=c1># Using vim in Windows Terminal, perform</span>
+<span class=c1># &lt;Ctrl-Alt-V&gt; to enter Visual Block mode</span>
+<span class=c1># &lt;Ctrl-]&gt; to highlight entire block</span>
+<span class=c1># &lt;Ctrl-I&gt; to enter multiline insert mode</span>
+<span class=c1># press &#39;# &#39; on keyboard</span>
+<span class=c1># &lt;Esc&gt;</span>
 
-<span class=c1># Automatically restart the service if it crashes</span>
-<span class=nv>Restart</span><span class=o>=</span>on-failure
+<span class=c1># et Voila! the entire SIP account block should be commented out</span>
+</code></pre></div><div class=gdoc-page__anchorwrap>
+<h3 id=enable-transcription>
+Enable Transcription
+<a data-clipboard-text=https://alexk2037.github.io/debian10/jitsi/configuration/#enable-transcription class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Enable Transcription" href=#enable-transcription><svg class="icon gdoc_link"><use xlink:href="#gdoc_link"/></svg>
+</a>
+</h3>
+</div><p><strong>Configure Subtitle Button</strong></p>
+<p>When I started a meeting, the subtitle button was missing:</p>
+<p><img src=https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d730ca3e-61c5-4209-9f3f-1638b6754a1e/Untitled.png alt=https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d730ca3e-61c5-4209-9f3f-1638b6754a1e/Untitled.png></p>
+<p>To fix this, I opened my JMS config.js in vim:</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>$ sudo -s
+$ vim /etc/jitsi/meet/debbie.net-config.js
+</code></pre></div><p>I uncommented <code>transcribingEnabled</code> and set to <code>true</code> and uncommented the <code>toolbarButtons</code> array. You may need to restart services if the button still doesn&rsquo;t show up:</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=c1># Restart in this order</span>
+$ systemctl restart nginx <span class=o>&amp;&amp;</span> systemctl restart prosody <span class=o>&amp;&amp;</span> systemctl restart jitsi-videobridge2 <span class=o>&amp;&amp;</span> systemctl restart jicofo <span class=o>&amp;&amp;</span> systemctl restart jigasi
+</code></pre></div><div class=gdoc-page__anchorwrap>
+<h3 id=configure-transcriber>
+<strong>Configure Transcriber</strong>
+<a data-clipboard-text=https://alexk2037.github.io/debian10/jitsi/configuration/#configure-transcriber class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Configure Transcriber" href=#configure-transcriber><svg class="icon gdoc_link"><use xlink:href="#gdoc_link"/></svg>
+</a>
+</h3>
+</div><p><strong>Prosody Config:</strong> Finally, <a class=gdoc-markdown__link href=https://community.jitsi.org/t/configuration-of-jigasi/22095/7>I added a VirtualHost recorder</a> to the prosody config file, which was $(hostname -f).cfg.lua</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>$ vim /etc/prosody/conf.d/debbie.net.cfg.lua
+</code></pre></div><p>Inside the debbie.net.cfg.lua file, add the following code above the conference Component:</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-lua data-lang=lua><span class=n>VirtualHost</span> <span class=s2>&#34;recorder.debbie.net&#34;</span>
+    <span class=n>modules_enabled</span> <span class=o>=</span> <span class=p>{</span>
+        <span class=s2>&#34;ping&#34;</span><span class=p>;</span>
+    <span class=p>}</span>
+    <span class=n>authentication</span> <span class=o>=</span> <span class=s2>&#34;internal_plain&#34;</span>
+</code></pre></div><p><a class=gdoc-markdown__link href=https://www.notion.so/Jigasi-Setup-Jitsi-Configuration-Debian-10-dcc4713afafb444488fa7905a7303b72>Add a transcriber user</a> using prosody, specifically to <strong>recorder.debbie.net</strong>:</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>$ prosodyctl register transcriber recorder.debbie.net ai3eiSha2nae
+</code></pre></div><p>Also, change the password of the auth user:</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>$ prosodyctl passwd jigasi@auth.debbie.net
 
-<span class=c1># Our service will notify systemd once it is up and running</span>
-<span class=nv>Type</span><span class=o>=</span>simple
+<span class=c1># This will prompt you to enter a new password. If you want to see the prosody accounts go to:</span>
+$ <span class=nb>cd</span> /var/lib/prosody/
 
-<span class=c1># Use a dedicated user to run our service (only for system services)</span>
-<span class=c1># User=python_demo_service</span>
+<span class=c1># Then cd into the relevant directory.</span>
+</code></pre></div><p>Convert that password (I used <code>vixohv2geeNa</code>) to base64 and put it in the Jigasi Properties file</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>$ python3
+&gt;&gt;&gt; import base64
+&gt;&gt;&gt; base64.b64encode<span class=o>(</span>b<span class=s1>&#39;vixohv2geeNa&#39;</span><span class=o>)</span>
+b<span class=s1>&#39;dml4b2h2MmdlZU5h&#39;</span>
+&gt;&gt;&gt; exit<span class=o>()</span>
 
-<span class=o>[</span>Install<span class=o>]</span>
-<span class=c1># Tell systemd to automatically start this service when the system boots</span>
-<span class=c1># (assuming the service is enabled)</span>
-<span class=nv>WantedBy</span><span class=o>=</span>default.target
-</code></pre></div><p><strong>Activate service</strong></p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>$ systemctl --user daemon-reload
-$ systemctl --user status vosk_service
-$ systemctl --user start vosk_service
-$ systemctl --user status vosk_service
-&gt;&gt;&gt; <span class=c1># Vosk Service should be green and running now!</span>
-<span class=c1># To exit status log, press &#39;q&#39; (for quit) on your keyboard</span>
+$ vim /etc/jitsi/jigasi/sip-communicator.properties
 
-<span class=c1># Check logs</span>
-$ sudo -s
-$ grep <span class=s1>&#39;Vosk Service&#39;</span> /var/log/syslog
-$ grep <span class=s1>&#39;python&#39;</span> /var/log/syslog
-</code></pre></div><p><strong>Enable Vosk to start on boot up:</strong></p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>$ systemctl --user <span class=nb>enable</span> vosk_service
+<span class=c1># Add password to xmpp password:</span>
+net.java.sip.communicator.impl.protocol.jabber.acc-xmpp-1.PASSWORD<span class=o>=</span>dml4b2h2MmdlZU5h
+</code></pre></div><p><img src=https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f53bfc86-1ffa-445a-a6ee-c15143c24711/Untitled.png alt=https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f53bfc86-1ffa-445a-a6ee-c15143c24711/Untitled.png></p>
+<p><strong>Jigasi Config:</strong> Then I added the transcriber user to Jigasi Communicator Properties:</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>$ vim /etc/jitsi/jigasi/sip-communicator.properties
+
+<span class=c1># Inside file add:</span>
+org.jitsi.jigasi.xmpp.acc.USER_ID<span class=o>=</span>transcriber@recorder.debbie.net
+org.jitsi.jigasi.xmpp.acc.PASS<span class=o>=</span>ai3eiSha2nae
+org.jitsi.jigasi.xmpp.acc.ANONYMOUS_AUTH<span class=o>=</span><span class=nb>false</span>
+
+org.jitsi.jigasi.xmpp.acc.ALLOW_NON_SECURE<span class=o>=</span><span class=nb>true</span>
+</code></pre></div><p><strong>Jicofo Config:</strong> Next, I <a class=gdoc-markdown__link href=https://community.jitsi.org/t/configuration-of-jigasi/22095/7>added auth info</a> to Jicofo Communicator Properties:</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>$ vim /etc/jitsi/jicofo/sip-communicator.properties
+
+<span class=c1># Inside file, append:</span>
+org.jitsi.jicofo.jigasi.BREWERY<span class=o>=</span>JigasiBrewery@internal.auth.debbie.net
+</code></pre></div><p>Then restart JMS:</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=c1># Restart in this order</span>
+$ systemctl stop nginx prosody jitsi-videobridge2 jicofo jigasi
+$ systemctl status prosody jitsi-videobridge2 jicofo jigasi
+$ systemctl start nginx prosody jitsi-videobridge2 jicofo jigasi
+
+<span class=c1># Or</span>
+$ systemctl restart nginx prosody jitsi-videobridge2 jicofo jigasi
+</code></pre></div><div class=gdoc-page__anchorwrap>
+<h3 id=end-result>
+END RESULT
+<a data-clipboard-text=https://alexk2037.github.io/debian10/jitsi/configuration/#end-result class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor END RESULT" href=#end-result><svg class="icon gdoc_link"><use xlink:href="#gdoc_link"/></svg>
+</a>
+</h3>
+</div><p><img src=https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e00d5527-ae8c-43d4-9d8b-2330cb52f11a/Untitled.png alt=https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e00d5527-ae8c-43d4-9d8b-2330cb52f11a/Untitled.png></p>
+<div class=gdoc-page__anchorwrap>
+<h1 id=troubleshooting>
+Troubleshooting
+<a data-clipboard-text=https://alexk2037.github.io/debian10/jitsi/configuration/#troubleshooting class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Troubleshooting" href=#troubleshooting><svg class="icon gdoc_link"><use xlink:href="#gdoc_link"/></svg>
+</a>
+</h1>
+</div><p><img src=https://s3-us-west-2.amazonaws.com/secure.notion-static.com/63004cf4-0bad-4051-95b6-4e669df8d927/Untitled.png alt=https://s3-us-west-2.amazonaws.com/secure.notion-static.com/63004cf4-0bad-4051-95b6-4e669df8d927/Untitled.png></p>
+<p><strong>Delete prosody accounts and add them back again</strong></p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=c1># Delete users</span>
+$ prosodyctl deluser jigasi@auth.192.168.2.72
+$ prosodyctl deluser transcriber@recorder.192.168.2.72
+
+<span class=c1># Check folders to make sure they were deleted</span>
+$ ls /var/lib/prosody/recorder*/accounts/ <span class=c1># Should return nothing</span>
+$ ls /var/lib/prosody/auth*/accounts/ <span class=c1># Should no auth</span>
+
+<span class=c1># Restart prosody</span>
+$ systemctl restart prosody
+$ systemctl status prosody
+
+<span class=c1># Add users again</span>
+$ prosodyctl register jigasi auth.192.168.2.72 vixohv2geeNa
+$ prosodyctl register transcriber recorder.192.168.2.72 ai3eiSha2nae
+
+<span class=c1># Check folders to make sure they were deleted</span>
+$ ls /var/lib/prosody/recorder*/accounts/ <span class=c1># Should return transcriber.dat</span>
+$ ls /var/lib/prosody/auth*/accounts/ <span class=c1># Should return jigasi.dat</span>
+
+<span class=c1># Restart prosody</span>
+$ systemctl restart prosody
+$ systemctl status prosody
 </code></pre></div>
 </article>
 <div class="gdoc-page__footer flex flex-wrap justify-between">
