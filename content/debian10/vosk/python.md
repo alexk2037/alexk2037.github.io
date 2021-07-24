@@ -1,7 +1,7 @@
 ---
 title: "General Python Setup"
 date: 2021-07-23T23:14:39-04:00
-draft: true
+draft: false
 ---
 
 **Install Python 3.8**

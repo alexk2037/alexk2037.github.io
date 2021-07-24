@@ -1,7 +1,7 @@
 ---
 title: "Configuration"
 date: 2021-07-23T23:33:58-04:00
-draft: true
+draft: false
 ---
 
 ### Set up Jigasi
