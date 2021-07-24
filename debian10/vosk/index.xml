@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Step by Step Dev</title><link>https://alexk2037.github.io/debian10/vosk/</link><description>Recent content on Step by Step Dev</description><generator>Hugo -- gohugo.io</generator><atom:link href="https://alexk2037.github.io/debian10/vosk/index.xml" rel="self" type="application/rss+xml"/><item><title>Vosk Setup</title><link>https://alexk2037.github.io/debian10/vosk/vosk/</link><pubDate>Fri, 23 Jul 2021 23:03:33 -0400</pubDate><guid>https://alexk2037.github.io/debian10/vosk/vosk/</guid><description>Git &amp;amp; Vosk Server files
+$ git clone https://github.com/alphacep/vosk-server.git Install dependencies
+$ python3 -m pip install aiortc aiohttp aiorpc vosk $ python3 -m pip install websockets Download Speech Recognition model:
+Models can be found here: VOSK Models (alphacephei.com)
+# /home/$USER $ wget http://alphacephei.com/vosk/models/vosk-model-small-en-us-0.15.zip # $ sudo apt-get install unzip $ unzip vosk-model-small-en-us-0.15.zip # Rename the downloaded model for Vosk API to work $ mv vosk-model-small-en-us-0.15 model Create .service File
+$ mkdir -p ~/.</description></item></channel></rss>
