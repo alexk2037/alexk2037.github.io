@@ -4,26 +4,25 @@ date: 2021-07-23T23:11:41-04:00
 draft: true
 ---
 
-## **Required packages and repository updates**
-
-Install required packages
+## **Install required packages and update repository**
 
 ```Shell
-# Data encryption
+# For data encryption
 $ sudo apt install gnupg2
 
 # Web server
 $ sudo apt install nginx-full
+# TEST: enter you ip address in your browser. You should see a default Nginx landing page
 
-# Java Runtime Environment
+# Install Java Runtime Environment
 $ sudo apt install default-jre
 
-# Java 11 (should already be installed on Debian 10)
+# Java 11; Headless means the non-GUI version
 $ sudo apt install openjdk-11-jre-headless
 ```
 
 {{< expand "What is the recommended Java Version?" >}}
-Jitsi team made optimizations for Java 8, however, Debian 10 (Buster) supports only Java 11 officially
+Jitsi team made optimizations for Java 8, however, development is moving towards Java 11 (particularly on Debian systems)
 
 {{< button href="https://community.jitsi.org/t/what-is-the-recommend-java-version/28955/2?" >}}Source: Jitsi Community Forum{{< /button >}}
 
@@ -36,48 +35,23 @@ $ sudo apt update
 
 # Ensure support for apt repositories served via HTTPS
 $ sudo apt install apt-transport-https
+$ sudo apt upgrade
+
+# On Ubuntu systems, Jitsi requires dependencies from Ubuntu's universe package repo
+$ sudo apt-add-repository universe
 
 # Retrieve the latest package versions across all repositories
 $ sudo apt update
-
-$ sudo apt upgrade
 ```
 
-{{< expand "Network Setup">}}
+## Network Configuration
 
-**Domain**: debbie.net
+I SKIPPED 
 
-Open windows hosts file (C:\Windows\System32\drivers\etc\hosts) in notepad and add:
+- Domain of your server and set up DNS
+- Set up the Fully Qualified Domain Name (FQDN) (optional)
 
-```Shell
-# hosts
-{{< param ipAddress >}} debbie.net
-```
-
-Then go to hosts file in Debian server:
-
-```Shell
-# /etc/hosts
-{{< param ipAddress >}} debserver10.debbie.net debserver10
-```
-
-
-
-
-- Set up the Fully Qualified Domain Name (FQDN) (optional):
-
-```Shell
-$ nvim /etc/hosts
-
-# Add to file:
-
-127.0.0.1 localhost
-{{< param ipAddress >}} debbie.net
-```
-
-{{< /expand >}}
-
-### **Add the Jitsi package repository**
+## Install Jitsi
 
 This will add the jitsi repository to your package sources to make the Jitsi Meet packages available.
 
@@ -92,7 +66,6 @@ $ sudo apt update
 ### Setup and configure your firewall
 
 ```Shell
-$ sudo apt install ufw
 $ sudo ufw allow 80/tcp && sudo ufw allow 443/tcp && sudo ufw allow 10000/udp && sudo ufw allow 22/tcp && sudo ufw allow 3478/udp && sudo ufw allow 5349/tcp
 $ sudo ufw enable
 $ sudo ufw status verbose

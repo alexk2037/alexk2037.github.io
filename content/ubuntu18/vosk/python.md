@@ -1,7 +1,7 @@
 ---
 title: "General Python Setup"
 date: 2021-07-23T23:14:39-04:00
-draft: true
+draft: false
 ---
 
 **Install Python 3.8**
@@ -11,13 +11,21 @@ draft: true
 {{< /expand >}}
 
 Follow the article step by step:
-[How to install Python 3.8 on Debian 10 (Linuxize)](https://linuxize.com/post/how-to-install-python-3-8-on-debian-10/)
+[How to install Python 3.8 on Ubuntu 18.04 (Linuxize)](https://linuxize.com/post/how-to-install-python-3-8-on-ubuntu-18-04/)
 
-To set Python 3.8.2 as the default simply add the following to the end of your Shell profile
+To set Python 3.8.11 as the default simply add the following to the end of your Shell profile
 
 ```Shell
-# ~/.Shellrc
+$ vim ~/.bashrc
+
+# ~/.bashrc
 alias python3="python3.8"
+
+$ source ~/.bashrc
+
+# Test
+$ python3 -V
+>>> Python 3.8.11
 ```
 
 **Python Venv Setup**
@@ -25,8 +33,12 @@ alias python3="python3.8"
 Create a virtual environment:
 
 ```Shell
-# Use Python 3.8.2
+# Use Python 3.8.11
+$ sudo apt install python3.8-venv
 $ python3 -m venv venv
 $ source venv/bin/activate
+
+# You shell prompt should look like this now:
+(venv) user@hostname:~$
 ```
 

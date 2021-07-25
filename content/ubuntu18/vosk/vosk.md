@@ -1,12 +1,14 @@
 ---
 title: "Vosk Setup"
 date: 2021-07-23T23:03:33-04:00
-draft: true
 ---
+
+## Set up Vosk as a system daemon
 
 **Git & Vosk Server files**
 
 ```Shell
+$ cd $HOME
 $ git clone https://github.com/alphacep/vosk-server.git
 ```
 
@@ -34,18 +36,23 @@ $ mv vosk-model-small-en-us-0.15 model
 
 ```Shell
 $ mkdir -p ~/.config/systemd/user
-$ cd ~/.config/systemd/user
-$ touch vosk_service.service
+$ touch ~/.config/systemd/user/vosk_service.service
 # Check
 $ systemctl --user list-unit-files | grep vosk_service
->>> vosk_service.service           disabled
-# Open service file
-$ nvim ~/.config/systemd/user/vosk_service.service
+>>> vosk_service.service           masked
+
 ```
 
 **Write to .service File**
 
-Open .service file with your text editor then paste the following. Make sure to replace `kapp` with your username instead. If you are unsure about your username, type `$ echo $USER`
+Open .service file with your text editor,
+
+```Shell
+# Open service file
+$ vim ~/.config/systemd/user/vosk_service.service
+```
+
+then paste the following text. Make sure to replace `kapp` with your username instead. If you are unsure about your username, type `$ echo $USER` into your shell.
 
 ```Shell
 # systemd unit file for the Vosk Service
@@ -57,7 +64,7 @@ Description=Vosk Service
 [Service]
 # Command to execute when the service is started
 WorkingDirectory=/home/kapp
-ExecStart=/home/kapp/venv/bin/python3.8 /home/kapp/vosk-server/websocket/asr_server.py
+ExecStart=/home/kapp/venv/bin/python3 /home/kapp/vosk-server/websocket/asr_server.py
 
 # Disable Python's buffering of STDOUT and STDERR, so that output from the
 # service shows up immediately in systemd's logs
@@ -83,6 +90,8 @@ WantedBy=default.target
 ```Shell
 $ systemctl --user daemon-reload
 $ systemctl --user status vosk_service
+# Press 'q' (for quit) to see your shell prompt again
+
 $ systemctl --user start vosk_service
 $ systemctl --user status vosk_service
 >>> # Vosk Service should be green and running now!
@@ -92,6 +101,7 @@ $ systemctl --user status vosk_service
 $ sudo -s
 $ grep 'Vosk Service' /var/log/syslog
 $ grep 'python' /var/log/syslog
+$ exit
 ```
 
 **Enable Vosk to start on boot up:**
@@ -99,3 +109,58 @@ $ grep 'python' /var/log/syslog
 ```Shell
 $ systemctl --user enable vosk_service
 ```
+
+## Configure Vosk for Jitsi
+
+Jitsi uses port 10000 for audio and video communication, so we'll change the Vosk listening port [as suggested by one of the main developers of vosk](https://github.com/alphacep/vosk-api/issues/113#issuecomment-884750079)
+
+```Shell
+# Stop vosk daemon
+$ systemctl --user stop vosk_service
+$ systemctl --user status vosk_service
+```
+
+Create environment variable
+
+```Shell
+$ sudo -s
+$ vim /etc/environment
+
+# append to /etc/environment
+VOSK_SERVER_PORT=10000
+```
+
+You may need to open a new shell. Next, make sure the environment variable was set correctly
+
+```Shell
+# test
+$ printenv VOSK_SERVER_PORT
+>>> 10000
+
+# alternative test
+$ python3
+>>> import os
+>>> os.environ.get('VOSK_SERVER_PORT', 2700)
+'10000'
+```
+
+Start the Vosk service again:
+
+```Shell
+$ systemctl --user daemon-reload
+$ systemctl --user start vosk_service
+$ systemctl --user status vosk_service
+```
+
+## Other Things
+
+Watch Vosk logs
+
+```Shell
+$ tail -f /var/log/syslog
+```
+
+## Further Reading
+
+* For more info on python daemons see [https://github.com/torfsen/python-systemd-tutorial](https://github.com/torfsen/python-systemd-tutorial) 
+* For more on Vosk server see [https://github.com/alphacep/vosk-server](https://github.com/alphacep/vosk-server)
