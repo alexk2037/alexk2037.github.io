@@ -4,7 +4,11 @@ date: 2021-07-23T23:11:41-04:00
 draft: true
 ---
 
-## **Install required packages and update repository**
+[Jitsi Self-Hosting Guide](https://jitsi.github.io/handbook/docs/devops-guide/devops-guide-quickstart)
+
+## Install required packages and update repository
+
+{{< expand "Install packages" >}}
 
 ```Shell
 # For data encryption
@@ -44,14 +48,55 @@ $ sudo apt-add-repository universe
 $ sudo apt update
 ```
 
+{{< /expand >}}
+
 ## Network Configuration
 
-I SKIPPED 
+{{< expand "Network Setup">}}
 
-- Domain of your server and set up DNS
-- Set up the Fully Qualified Domain Name (FQDN) (optional)
+**Domain**: {{< param domain >}}
+
+Open windows hosts file (C:\Windows\System32\drivers\etc\hosts) in notepad and add:
+
+```PowerShell
+# Powershell in Windows Terminal
+> Start-Process -Verb RunAs wt
+> notepad C:\Windows\System32\drivers\etc\hosts
+
+# hosts
+{{< param ipAddress >}} {{< param domain >}}
+```
+
+### Set up the Fully Qualified Domain Name (FQDN) (optional):
+
+```Shell
+$ sudo hostnamectl set-hostname {{< param domain >}}
+$ vim /etc/hosts
+
+# /etc/hosts
+127.0.0.1 localhost
+{{< param ipAddress >}} {{< param domain >}}
+```
+
+Then test to see if everything is working
+
+```Shell
+ping "$(hostname)"
+>>> PING freemeet.net (192.168.0.14) 56(84) bytes of data.
+64 bytes from freemeet.net (192.168.0.14): icmp_seq=1 ttl=64 time=0.019 ms
+64 bytes from freemeet.net (192.168.0.14): icmp_seq=2 ttl=64 time=0.031 ms
+64 bytes from freemeet.net (192.168.0.14): icmp_seq=3 ttl=64 time=0.028 ms
+^C
+--- freemeet.net ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2032ms
+rtt min/avg/max/mdev = 0.019/0.026/0.031/0.005 ms
+```
+
+{{< /expand >}}
 
 ## Install Jitsi
+
+### Add Jitsi repositories
 
 This will add the jitsi repository to your package sources to make the Jitsi Meet packages available.
 
@@ -73,39 +118,31 @@ $ sudo ufw status verbose
 
 ### Install Jitsi Meet
 
-**Hostname:** IP address of machine: {{< param ipAddress >}}
+**Hostname:** {{< param domain >}}
 
 **SSL/TLS certificate generation:** Choose option (1) Generate TLS certificate
+
+{{< hint danger >}}
+Don't run Let's Encrypt script after installing Jitsi
+```Shell
+# DON'T run this
+$ sudo /usr/share/jitsi-meet/scripts/install-letsencrypt-cert.sh
+```
+{{< /hint >}}
 
 ```Shell
 # jitsi-meet installation
 $ sudo apt install jitsi-meet
-# Generate a Let's Encrypt certificate (optional, recommended)
-$ sudo /usr/share/jitsi-meet/scripts/install-letsencrypt-cert.sh
 ```
 
-> Note from Let's Encrypt: "Requested name {{< param ipAddress >}} is an IP address. The Let's Encrypt certificate authority will not issue certificates for a bare IP address.
+Test the installation by going to {{< param domain >}} in your browser.
 
-### Systemd Commands
+Because we used a self-signed certificate, there will be a warning from your browser.
+Clicked 'Advanced' and continue to {{< param domain >}}. 
+It's not actually unsafe because we are the only clients visiting the website.
 
-```Shell
-# To reload the systemd changes on a running system execute 
-$ sudo systemctl daemon-reload
-$ sudo systemctl restart jitsi-videobridge2
+Notice that the HTTPS is crossed out because the Let's Encrypt certificate failed to generate.
 
-# To check the tasks part execute 
-$ sudo systemctl status jitsi-videobridge2
-# and you should see Tasks: XX (limit: 65000).
+## Next Steps
 
-# To check the files and process part execute 
-$ cat /proc/`cat /var/run/jitsi-videobridge/jitsi-videobridge.pid`/limits
-# and you should see:
-Max processes             65000                65000                processes
-Max open files            65000                65000                files
-```
-
-## End Result
-
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6ce154f5-0cbd-4f91-84a0-768b5b488ba0/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6ce154f5-0cbd-4f91-84a0-768b5b488ba0/Untitled.png)
-
-Notice that the HTTPS is crossed out because the Let's Encrypt certificate failed to generate
+Read [Jitsi Configuration docs](/ubuntu18/jitsi/configuration)

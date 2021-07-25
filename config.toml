@@ -23,6 +23,7 @@ enableGitInfo = true
 
   # --- CUSTOM PARAMS
   ipAddress = "192.168.0.14" # Static IP assigned to virtual machine
+  domain = "freemeet.net"
 
   # --- GEEKDOC PARAMS
 
