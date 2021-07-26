@@ -1,7 +1,7 @@
 ---
 title: "Logging"
 date: 2021-07-25T11:58:26-04:00
-draft: true
+draft: false
 ---
 
 ### Start, Stop, Restart Jitsi Components
