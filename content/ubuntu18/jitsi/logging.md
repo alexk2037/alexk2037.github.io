@@ -126,3 +126,7 @@ $ tail -f /var/log/prosody/prosody.log
 ```
 
 **Settings**
+
+```Shell
+$ vim /etc/prosody/conf.d/freemeet.net.cfg.lua
+```

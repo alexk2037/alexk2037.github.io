@@ -81,11 +81,11 @@ $ vim /etc/hosts
 Then test to see if everything is working
 
 ```Shell
-ping "$(hostname)"
->>> PING freemeet.net (192.168.0.14) 56(84) bytes of data.
-64 bytes from freemeet.net (192.168.0.14): icmp_seq=1 ttl=64 time=0.019 ms
-64 bytes from freemeet.net (192.168.0.14): icmp_seq=2 ttl=64 time=0.031 ms
-64 bytes from freemeet.net (192.168.0.14): icmp_seq=3 ttl=64 time=0.028 ms
+$ ping "$(hostname)"
+>>> PING freemeet.net ({{< param ipAddress >}}) 56(84) bytes of data.
+64 bytes from freemeet.net ({{< param ipAddress >}}): icmp_seq=1 ttl=64 time=0.019 ms
+64 bytes from freemeet.net ({{< param ipAddress >}}): icmp_seq=2 ttl=64 time=0.031 ms
+64 bytes from freemeet.net ({{< param ipAddress >}}): icmp_seq=3 ttl=64 time=0.028 ms
 ^C
 --- freemeet.net ping statistics ---
 3 packets transmitted, 3 received, 0% packet loss, time 2032ms
