@@ -6,12 +6,14 @@ draft: true
 
 ## Set up Jigasi
 
+Read the [Jigasi Github repo](https://github.com/jitsi/jigasi) first.
+
 ```Shell
 # Install Jigasi
 $ sudo apt install jigasi
 ```
 
-SIP User: `jigasisipuser@freemeet.com`
+SIP User: `jigasisipuser@somesite.com`
 
 Password: `abc123321bca`
 
@@ -39,7 +41,7 @@ org.jitsi.jigasi.transcription.USE_VIDEO_MODEL = false
 
 # delivering final transcript
 org.jitsi.jigasi.transcription.DIRECTORY=/var/lib/jigasi/transcripts
-org.jitsi.jigasi.transcription.BASE_URL=http://freemeet.net/
+org.jitsi.jigasi.transcription.BASE_URL=http://{{< param domain >}}/
 org.jitsi.jigasi.transcription.jetty.port=-1
 org.jitsi.jigasi.transcription.ADVERTISE_URL=false
 
@@ -53,11 +55,25 @@ org.jitsi.jigasi.transcription.SEND_TXT=false
 
 # Vosk server
 org.jitsi.jigasi.transcription.customService=org.jitsi.jigasi.transcription.VoskTranscriptionService
-org.jitsi.jigasi.transcription.vosk.websocket_url=ws://freemeet.net:2700
+org.jitsi.jigasi.transcription.vosk.websocket_url=ws://{{< param domain >}}:2700
 ```
 {{< /expand >}}
 
-Optionally, we can also comment out most of the SIP-related settings, since transcription doesn't require SIP.
+Then comment out BOSH related things:
+
+```Shell
+#net.java.sip.communicator.impl.protocol.sip.acc1403273890647.BOSH_URL_PATTERN=https://{host}{subdomain}/http-bind?room={roomName    }
+...
+#net.java.sip.communicator.impl.protocol.jabber.acc-xmpp-1.BOSH_URL_PATTERN=https://{host}{subdomain}/http-bind?room={roomName}
+```
+
+Finally, make sure to set the USE_DEFAULT_STUN_SERVER property to true:
+
+```Shell
+net.java.sip.communicator.impl.protocol.jabber.acc-xmpp-1.USE_DEFAULT_STUN_SERVER=true
+```
+
+Optionally, we can also comment out most of the SIP-related settings, since transcription doesn't require SIP:
 
 ```Shell
 # Optional: Comment out SIP properties in Jigasi config
@@ -76,11 +92,13 @@ net.java.sip.communicator.impl.protocol.sip.acc1403273890647=acc1403273890647
 # The entire SIP account block should be commented out
 ```
 
+See [this thread in the Jitsi Community Forums for more info](https://www.notion.so/Jigasi-Configuration-7b0af881d6bc4bab827c3f3b0c3bd172#d3d00c3cfd4841cbb82d574b9ee8c186)
+
 ## Configure Transcription
 
 ### Enable Subtitle Button
 
-By default, the 'Start Subtitles' button is missing. To fix this, first open the Jitsi React config.js:
+By default, the 'Start Subtitles' button is missing. To fix this, first open the Jitsi Meet config.js:
 
 ```Shell
 $ sudo -s
@@ -143,8 +161,8 @@ VirtualHost "recorder.{{< param domain >}}"
     authentication = "internal_plain"
 
 -- Proxy to jicofo's user JID, so that it doesn't have to register as a component.
-Component "focus.freemeet.net" "client_proxy"
-    target_address = "focus@auth.freemeet.net"
+Component "focus.{{< param domain >}}" "client_proxy"
+    target_address = "focus@auth.{{< param domain >}}"
 ...
 ```
 
@@ -193,7 +211,7 @@ net.java.sip.communicator.impl.protocol.jabber.acc-xmpp-1.PASSWORD=dml4b2h2MmdlZ
 ```Shell
 $ vim /etc/jitsi/jigasi/sip-communicator.properties
 
-# Inside file add:
+# Inside file uncomment and modify:
 org.jitsi.jigasi.xmpp.acc.USER_ID=transcriber@recorder.{{< param domain >}}
 org.jitsi.jigasi.xmpp.acc.PASS=ai3eiSha2nae
 org.jitsi.jigasi.xmpp.acc.ANONYMOUS_AUTH=false
@@ -208,32 +226,20 @@ $ vim /etc/jitsi/jicofo/sip-communicator.properties
 org.jitsi.jicofo.jigasi.BREWERY=JigasiBrewery@internal.auth.{{< param domain >}}
 ```
 
-Then restart JMS:
 
+
+You probably don't need to restart anything, but if needed, then run:
 ```Shell
 # Restart in this order
-$ systemctl stop nginx prosody jitsi-videobridge2 jicofo jigasi
-$ systemctl status prosody jitsi-videobridge2 jicofo jigasi
-$ systemctl start nginx prosody jitsi-videobridge2 jicofo jigasi
-
-# Or
-$ systemctl restart nginx prosody jitsi-videobridge2 jicofo jigasi
+$ systemctl restart prosody && systemctl restart jitsi-videobridge2 && systemctl restart jicofo && systemctl restart jigasi
 ```
+See [logging](/ubuntu18/jitsi/logging) for more commands.
 
-You may need to  [restart services](/ubuntu18/jitsi/logging) if the subtitles button still doesn't show up:
+## Next Steps
 
-```Shell
-# Restart in this order
-$ systemctl restart nginx && systemctl restart prosody && systemctl restart jitsi-videobridge2 && systemctl restart jicofo && systemctl restart jigasi
-```
+Start a meeting, turn on subtitles, talk into your mic, and watch the subtitles.
 
-### END RESULT
-
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e00d5527-ae8c-43d4-9d8b-2330cb52f11a/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e00d5527-ae8c-43d4-9d8b-2330cb52f11a/Untitled.png)
-
-# Troubleshooting
-
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/63004cf4-0bad-4051-95b6-4e669df8d927/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/63004cf4-0bad-4051-95b6-4e669df8d927/Untitled.png)
+## Troubleshooting
 
 **Delete prosody accounts and add them back again**
 

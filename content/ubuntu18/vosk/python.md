@@ -7,7 +7,7 @@ draft: false
 **Install Python 3.8**
 
 {{< expand "What version of Python can I use?" >}}
-[For Vosk, nshmyrev on GitHub recommends Python 3.8](https://github.com/alphacep/vosk-api/issues/108#issuecomment-632835185)
+By default, Ubuntu 18.04 comes with Python 3.6, however,for Vosk [nshmyrev on GitHub recommends Python 3.8](https://github.com/alphacep/vosk-api/issues/108#issuecomment-632835185)
 {{< /expand >}}
 
 Follow the article step by step:

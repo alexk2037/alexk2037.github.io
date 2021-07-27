@@ -3,7 +3,15 @@ title: "Vosk Setup"
 date: 2021-07-23T23:03:33-04:00
 ---
 
+## Relevant Links
+
+* [Official Website](https://alphacephei.com/vosk/)
+* [Vosk API](https://github.com/alphacep/vosk-api)
+* [Vosk Server](https://github.com/alphacep/vosk-server)
+
 ## Set up Vosk as a system daemon
+
+We'll set up Vosk as a [daemon](https://en.wikipedia.org/wiki/Daemon_(computing)) using [systemd](https://systemd.io/). In other words, we'll configure Vosk to run on the VM in the background.
 
 **Git & Vosk Server files**
 
@@ -52,7 +60,7 @@ Open .service file with your text editor,
 $ vim ~/.config/systemd/user/vosk_service.service
 ```
 
-then paste the following text. Make sure to replace `kapp` with your username instead. If you are unsure about your username, type `$ echo $USER` into your shell.
+then paste the following text. Make sure to replace `kapp` with your username instead. If you are unsure about your username, enter `$ echo $USER` into your shell.
 
 ```Shell
 # systemd unit file for the Vosk Service
@@ -110,7 +118,9 @@ $ exit
 $ systemctl --user enable vosk_service
 ```
 
-## Configure Vosk for Jitsi
+## (Optional) Configure Vosk for Jitsi on a Separate Computer
+
+This is only necessary if you have Jitsi and Vosk running on separate servers.
 
 Jitsi uses port 10000 for audio and video communication, so we'll change the Vosk listening port [as suggested by one of the main developers of vosk](https://github.com/alphacep/vosk-api/issues/113#issuecomment-884750079)
 
@@ -164,3 +174,8 @@ $ tail -f /var/log/syslog
 
 * For more info on python daemons see [https://github.com/torfsen/python-systemd-tutorial](https://github.com/torfsen/python-systemd-tutorial) 
 * For more on Vosk server see [https://github.com/alphacep/vosk-server](https://github.com/alphacep/vosk-server)
+
+## Failed Attempts and Relevant Resources
+
+Initially I tried setting up the daemon [using python only](https://pypi.org/project/python-daemon/).
+[This tutorial](https://dpbl.wordpress.com/2017/02/12/a-tutorial-on-python-daemon/) was helpful for understanding the python-daemon library, but one of the comments for that article was especially helpful because they pointed out that most people these days use systemd to manage daemons. That pointed me in the right direction to figure out all the steps above.

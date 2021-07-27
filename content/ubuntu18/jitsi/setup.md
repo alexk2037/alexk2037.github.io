@@ -4,11 +4,9 @@ date: 2021-07-23T23:11:41-04:00
 draft: true
 ---
 
-[Jitsi Self-Hosting Guide](https://jitsi.github.io/handbook/docs/devops-guide/devops-guide-quickstart)
+Read the [Official Jitsi Self-Hosting Guide](https://jitsi.github.io/handbook/docs/devops-guide/devops-guide-quickstart) first, then come back here.
 
 ## Install required packages and update repository
-
-{{< expand "Install packages" >}}
 
 ```Shell
 # For data encryption
@@ -27,9 +25,7 @@ OpenJDK 64-Bit Server VM (build 11.0.11+9-Ubuntu-0ubuntu2.18.04, mixed mode, sha
 ```
 
 {{< expand "What is the recommended Java Version?" >}}
-Jitsi team made optimizations for Java 8, however, development is moving towards Java 11 (particularly on Debian systems)
-
-{{< button href="https://community.jitsi.org/t/what-is-the-recommend-java-version/28955/2?" >}}Source: Jitsi Community Forum{{< /button >}}
+The Jitsi team made [optimizations for Java 8](https://community.jitsi.org/t/what-is-the-recommend-java-version/28955/2), however, development is moving towards Java 11 (particularly on Debian systems)
 
 {{< /expand >}}
 
@@ -51,8 +47,13 @@ $ sudo apt update
 
 ## Network Configuration
 
+I have a domain called kappen.net (hosted with Netfirms). I added a [DNS A Record](https://www.cloudflare.com/en-ca/learning/dns/dns-records/dns-a-record/) for meet.kappen.net, with an IP address of {{< param ipAddress >}} (the static IP reserved for the VM). I set a short Time-To-live (TTL) (1 hour) because I use the domain for development purposes.
 
-### Set up the Fully Qualified Domain Name (FQDN) (optional):
+{{< expand "FQDN" >}}
+
+### Set up Fully Qualified Domain Name (FQDN) (optional):
+
+In the VM, run:
 
 ```Shell
 $ sudo hostnamectl set-hostname {{< param domain >}}
@@ -67,12 +68,12 @@ Then test to see if everything is working
 
 ```Shell
 $ ping "$(hostname)"
->>> PING freemeet.net ({{< param ipAddress >}}) 56(84) bytes of data.
-64 bytes from freemeet.net ({{< param ipAddress >}}): icmp_seq=1 ttl=64 time=0.019 ms
-64 bytes from freemeet.net ({{< param ipAddress >}}): icmp_seq=2 ttl=64 time=0.031 ms
-64 bytes from freemeet.net ({{< param ipAddress >}}): icmp_seq=3 ttl=64 time=0.028 ms
+>>> PING {{< param domain >}} ({{< param ipAddress >}}) 56(84) bytes of data.
+64 bytes from {{< param domain >}} ({{< param ipAddress >}}): icmp_seq=1 ttl=64 time=0.019 ms
+64 bytes from {{< param domain >}} ({{< param ipAddress >}}): icmp_seq=2 ttl=64 time=0.031 ms
+64 bytes from {{< param domain >}} ({{< param ipAddress >}}): icmp_seq=3 ttl=64 time=0.028 ms
 ^C
---- freemeet.net ping statistics ---
+--- {{< param domain >}} ping statistics ---
 3 packets transmitted, 3 received, 0% packet loss, time 2032ms
 rtt min/avg/max/mdev = 0.019/0.026/0.031/0.005 ms
 ```
@@ -93,7 +94,7 @@ $ echo 'deb [signed-by=/usr/share/keyrings/jitsi-keyring.gpg] https://download.j
 $ sudo apt update
 ```
 
-### Setup and configure your firewall
+### Setup and configure firewall
 
 ```Shell
 $ sudo ufw allow 80/tcp && sudo ufw allow 443/tcp && sudo ufw allow 10000/udp && sudo ufw allow 22/tcp && sudo ufw allow 3478/udp && sudo ufw allow 5349/tcp
@@ -108,9 +109,9 @@ $ sudo ufw status verbose
 **SSL/TLS certificate generation:** Choose option (1) Generate TLS certificate
 
 {{< hint danger >}}
-Don't run Let's Encrypt script after installing Jitsi
+I didn't run the Let's Encrypt script after installing Jitsi
 ```Shell
-# DON'T run this
+# I DIDN'T run this:
 $ sudo /usr/share/jitsi-meet/scripts/install-letsencrypt-cert.sh
 ```
 {{< /hint >}}
@@ -125,8 +126,6 @@ Test the installation by going to {{< param domain >}} in your browser.
 Because we used a self-signed certificate, there will be a warning from your browser.
 Clicked 'Advanced' and continue to {{< param domain >}}. 
 It's not actually unsafe because we are the only clients visiting the website.
-
-Notice that the HTTPS is crossed out because the Let's Encrypt certificate failed to generate.
 
 ## Next Steps
 
