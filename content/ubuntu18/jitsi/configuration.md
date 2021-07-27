@@ -244,7 +244,7 @@ $ prosodyctl deluser transcriber@recorder.{{< param domain >}}
 
 # Check folders to make sure they were deleted
 $ ls /var/lib/prosody/recorder*/accounts/ # Should be empty
-$ ls /var/lib/prosody/auth*/accounts/ # Should not return auth.dat
+$ ls /var/lib/prosody/auth*/accounts/ # Should not return jigasi.dat
 
 # Restart prosody
 $ systemctl restart prosody

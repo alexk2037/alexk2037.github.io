@@ -20,9 +20,10 @@ $ sudo apt install nginx-full
 
 # Install Java Runtime Environment
 $ sudo apt install default-jre
-
-# Java 11; Headless means the non-GUI version
-$ sudo apt install openjdk-11-jre-headless
+$ java -version
+>>> openjdk version "11.0.11" 2021-04-20
+OpenJDK Runtime Environment (build 11.0.11+9-Ubuntu-0ubuntu2.18.04)
+OpenJDK 64-Bit Server VM (build 11.0.11+9-Ubuntu-0ubuntu2.18.04, mixed mode, sharing)
 ```
 
 {{< expand "What is the recommended Java Version?" >}}
@@ -48,24 +49,8 @@ $ sudo apt-add-repository universe
 $ sudo apt update
 ```
 
-{{< /expand >}}
-
 ## Network Configuration
 
-{{< expand "Network Setup">}}
-
-**Domain**: {{< param domain >}}
-
-Open windows hosts file (C:\Windows\System32\drivers\etc\hosts) in notepad and add:
-
-```PowerShell
-# Powershell in Windows Terminal
-> Start-Process -Verb RunAs wt
-> notepad C:\Windows\System32\drivers\etc\hosts
-
-# hosts
-{{< param ipAddress >}} {{< param domain >}}
-```
 
 ### Set up the Fully Qualified Domain Name (FQDN) (optional):
 
