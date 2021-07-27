@@ -3,11 +3,10 @@
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <meta name=color-scheme content="light dark">
-<meta name=description content="Set up Vosk as a system daemon    Git & Vosk Server files
+<meta name=description content="Relevant Links     Official Website Vosk API Vosk Server  Set up Vosk as a system daemon    We&rsquo;ll set up Vosk as a daemon using systemd. In other words, we&rsquo;ll configure Vosk to run on the VM in the background.
+Git & Vosk Server files
 $ cd $HOME $ git clone https://github.com/alphacep/vosk-server.git Install dependencies
-$ python3 -m pip install aiortc aiohttp aiorpc vosk $ python3 -m pip install websockets Download Speech Recognition model:
-Models can be found here: VOSK Models (alphacephei.com)
-# /home/$USER $ wget http://alphacephei.com/vosk/models/vosk-model-small-en-us-0.15.zip # $ sudo apt-get install unzip $ unzip vosk-model-small-en-us-0.15.zip # Rename the downloaded model for Vosk API to work $ mv vosk-model-small-en-us-0.">
+$ python3 -m pip install aiortc aiohttp aiorpc vosk $ python3 -m pip install websockets Download Speech Recognition model:">
 <title>Vosk Setup | Step by Step Dev</title>
 <link rel=icon href=/favicon/favicon-32x32.png type=image/x-icon>
 <script src=/js/darkmode-ce906ea916.min.js></script>
@@ -139,12 +138,24 @@ hidden" itemprop=breadcrumb>
 <article class="gdoc-markdown gdoc-markdown__align--left">
 <h1>Vosk Setup</h1>
 <div class=gdoc-page__anchorwrap>
+<h2 id=relevant-links>
+Relevant Links
+<a data-clipboard-text=https://alexk2037.github.io/ubuntu18/vosk/vosk/#relevant-links class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Relevant Links" href=#relevant-links><svg class="icon gdoc_link"><use xlink:href="#gdoc_link"/></svg>
+</a>
+</h2>
+</div><ul>
+<li><a class=gdoc-markdown__link href=https://alphacephei.com/vosk/>Official Website</a></li>
+<li><a class=gdoc-markdown__link href=https://github.com/alphacep/vosk-api>Vosk API</a></li>
+<li><a class=gdoc-markdown__link href=https://github.com/alphacep/vosk-server>Vosk Server</a></li>
+</ul>
+<div class=gdoc-page__anchorwrap>
 <h2 id=set-up-vosk-as-a-system-daemon>
 Set up Vosk as a system daemon
 <a data-clipboard-text=https://alexk2037.github.io/ubuntu18/vosk/vosk/#set-up-vosk-as-a-system-daemon class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Set up Vosk as a system daemon" href=#set-up-vosk-as-a-system-daemon><svg class="icon gdoc_link"><use xlink:href="#gdoc_link"/></svg>
 </a>
 </h2>
-</div><p><strong>Git & Vosk Server files</strong></p>
+</div><p>We&rsquo;ll set up Vosk as a <a class=gdoc-markdown__link href=https://en.wikipedia.org/wiki/Daemon_%28computing%29>daemon</a> using <a class=gdoc-markdown__link href=https://systemd.io/>systemd</a>. In other words, we&rsquo;ll configure Vosk to run on the VM in the background.</p>
+<p><strong>Git & Vosk Server files</strong></p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>$ <span class=nb>cd</span> <span class=nv>$HOME</span>
 $ git clone https://github.com/alphacep/vosk-server.git
 </code></pre></div><p><strong>Install dependencies</strong></p>
@@ -169,7 +180,7 @@ $ systemctl --user list-unit-files <span class=p>|</span> grep vosk_service
 <p>Open .service file with your text editor,</p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=c1># Open service file</span>
 $ vim ~/.config/systemd/user/vosk_service.service
-</code></pre></div><p>then paste the following text. Make sure to replace <code>kapp</code> with your username instead. If you are unsure about your username, type <code>$ echo $USER</code> into your shell.</p>
+</code></pre></div><p>then paste the following text. Make sure to replace <code>kapp</code> with your username instead. If you are unsure about your username, enter <code>$ echo $USER</code> into your shell.</p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=c1># systemd unit file for the Vosk Service</span>
 
 <span class=o>[</span>Unit<span class=o>]</span>
@@ -216,12 +227,13 @@ $ <span class=nb>exit</span>
 </code></pre></div><p><strong>Enable Vosk to start on boot up:</strong></p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell>$ systemctl --user <span class=nb>enable</span> vosk_service
 </code></pre></div><div class=gdoc-page__anchorwrap>
-<h2 id=configure-vosk-for-jitsi>
-Configure Vosk for Jitsi
-<a data-clipboard-text=https://alexk2037.github.io/ubuntu18/vosk/vosk/#configure-vosk-for-jitsi class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Configure Vosk for Jitsi" href=#configure-vosk-for-jitsi><svg class="icon gdoc_link"><use xlink:href="#gdoc_link"/></svg>
+<h2 id=optional-configure-vosk-for-jitsi-on-a-separate-computer>
+(Optional) Configure Vosk for Jitsi on a Separate Computer
+<a data-clipboard-text=https://alexk2037.github.io/ubuntu18/vosk/vosk/#optional-configure-vosk-for-jitsi-on-a-separate-computer class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor (Optional) Configure Vosk for Jitsi on a Separate Computer" href=#optional-configure-vosk-for-jitsi-on-a-separate-computer><svg class="icon gdoc_link"><use xlink:href="#gdoc_link"/></svg>
 </a>
 </h2>
-</div><p>Jitsi uses port 10000 for audio and video communication, so we&rsquo;ll change the Vosk listening port <a class=gdoc-markdown__link href=https://github.com/alphacep/vosk-api/issues/113#issuecomment-884750079>as suggested by one of the main developers of vosk</a></p>
+</div><p>This is only necessary if you have Jitsi and Vosk running on separate servers.</p>
+<p>Jitsi uses port 10000 for audio and video communication, so we&rsquo;ll change the Vosk listening port <a class=gdoc-markdown__link href=https://github.com/alphacep/vosk-api/issues/113#issuecomment-884750079>as suggested by one of the main developers of vosk</a></p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-Shell data-lang=Shell><span class=c1># Stop vosk daemon</span>
 $ systemctl --user stop vosk_service
 $ systemctl --user status vosk_service
@@ -263,6 +275,14 @@ Further Reading
 <li>For more info on python daemons see <a class=gdoc-markdown__link href=https://github.com/torfsen/python-systemd-tutorial>https://github.com/torfsen/python-systemd-tutorial</a></li>
 <li>For more on Vosk server see <a class=gdoc-markdown__link href=https://github.com/alphacep/vosk-server>https://github.com/alphacep/vosk-server</a></li>
 </ul>
+<div class=gdoc-page__anchorwrap>
+<h2 id=failed-attempts-and-relevant-resources>
+Failed Attempts and Relevant Resources
+<a data-clipboard-text=https://alexk2037.github.io/ubuntu18/vosk/vosk/#failed-attempts-and-relevant-resources class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Failed Attempts and Relevant Resources" href=#failed-attempts-and-relevant-resources><svg class="icon gdoc_link"><use xlink:href="#gdoc_link"/></svg>
+</a>
+</h2>
+</div><p>Initially I tried setting up the daemon <a class=gdoc-markdown__link href=https://pypi.org/project/python-daemon/>using python only</a>.
+<a class=gdoc-markdown__link href=https://dpbl.wordpress.com/2017/02/12/a-tutorial-on-python-daemon/>This tutorial</a> was helpful for understanding the python-daemon library, but one of the comments for that article was especially helpful because they pointed out that most people these days use systemd to manage daemons. That pointed me in the right direction to figure out all the steps above.</p>
 </article>
 <div class="gdoc-page__footer flex flex-wrap justify-between">
 </div>
@@ -275,7 +295,7 @@ Further Reading
 Built with <a href=https://gohugo.io/ class=gdoc-footer__link>Hugo</a> and<svg class="icon gdoc_heart"><use xlink:href="#gdoc_heart"/></svg>
 </span>
 <span class="gdoc-footer__item gdoc-footer__item--row">
-<a href=/legal class=gdoc-footer__link>Legal Notice</a>
+<a href=/terms class=gdoc-footer__link>Legal Notice</a>
 </span>
 <span class="gdoc-footer__item gdoc-footer__item--row">
 <a href=/privacy class=gdoc-footer__link>Privacy Policy</a>
