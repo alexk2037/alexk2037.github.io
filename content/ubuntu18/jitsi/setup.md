@@ -1,7 +1,7 @@
 ---
-title: "Jitsi Setup"
+title: "Setup"
 date: 2021-07-23T23:11:41-04:00
-draft: true
+draft: false
 ---
 
 Read the [Official Jitsi Self-Hosting Guide](https://jitsi.github.io/handbook/docs/devops-guide/devops-guide-quickstart) first, then come back here.

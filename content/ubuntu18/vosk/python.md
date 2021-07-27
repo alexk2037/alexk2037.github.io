@@ -1,5 +1,5 @@
 ---
-title: "General Python Setup"
+title: "Python Setup"
 date: 2021-07-23T23:14:39-04:00
 draft: false
 ---

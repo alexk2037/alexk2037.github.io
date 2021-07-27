@@ -1,7 +1,7 @@
 ---
 title: "Network"
 date: 2021-07-24T19:23:05-04:00
-draft: true
+draft: false
 weight: 10
 ---
 

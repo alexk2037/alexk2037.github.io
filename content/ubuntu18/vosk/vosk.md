@@ -1,5 +1,5 @@
 ---
-title: "Vosk Setup"
+title: "Setup"
 date: 2021-07-23T23:03:33-04:00
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: "Setup"
 date: 2021-07-24T19:21:54-04:00
-draft: true
+draft: false
 weight: 1
 ---
 
