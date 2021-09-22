@@ -1,0 +1,1 @@
+[Official docs](https://jitsi.github.io/handbook/docs/devops-guide/devops-guide-quickstart) are pretty good instructions, plus they are more likely to be up-to-date than whatever I might write.

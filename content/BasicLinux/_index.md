@@ -1,0 +1,2 @@
+
+[micro](https://micro-editor.github.io/) is an easy to use text editor (compared to nano in my opinion, and especially compared vim or emacs) that I would recommend if you are new to Linux. Otherwise, I would recommend learning to use vim.
