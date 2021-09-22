@@ -4,11 +4,7 @@
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <meta name=color-scheme content="light dark">
-<meta name=description content="Welcome!
-Here you will find step by step instructions on how to set up Jitsi Meet (with transcription) inside a VirtualBox virtual machine running Ubuntu 18.04 Server.
-I wrote these instructions keeping in mind what a beginner version of myself would have appreciated.
-Hopefully, you find these helpful.
-- AK">
+<meta name=description content="Update Sep 2021: I am no longer actively developing with Jitsi and Vosk, so please bear in mind that these docs may be outdated by the time you read them. Previously, I wrote a lot of documentation about using Jitsi and Vosk, however, it was stored in a different format and different application. I am working (as of sept 2021) to port those docs to this site in my free time.">
 <title>Step by Step Dev</title>
 <link rel=icon href=/favicon/favicon-32x32.png type=image/x-icon>
 <script src=/js/darkmode-ce906ea916.min.js></script>
@@ -53,21 +49,18 @@ Hopefully, you find these helpful.
 <h2>Navigation</h2>
 <ul class=gdoc-nav__list>
 <li>
-<input type=checkbox id=navtree-5e21d666 class=gdoc-nav__toggle>
-<label for=navtree-5e21d666 class="flex justify-between">
-<span class=flex>Debian10</span><svg class="icon gdoc_keyborad_arrow_left"><use xlink:href="#gdoc_keyborad_arrow_left"/></svg><svg class="icon gdoc_keyborad_arrow_down hidden"><use xlink:href="#gdoc_keyborad_arrow_down"/></svg>
-</label>
-<ul class=gdoc-nav__list>
-<li>
-<span class=flex>Jitsi</span>
+<span class=flex>
+<a href=/BasicLinux/ class=gdoc-nav__entry>
+Basic Linux
+</a>
+</span>
 </li>
 <li>
-<span class=flex>Vm</span>
-</li>
-<li>
-<span class=flex>Vosk</span>
-</li>
-</ul>
+<span class=flex>
+<a href=/InstallJitsi/ class=gdoc-nav__entry>
+Install Jitsi
+</a>
+</span>
 </li>
 <li>
 <input type=checkbox id=navtree-7550288a class=gdoc-nav__toggle>
@@ -86,96 +79,20 @@ Logs Settings
 </span>
 </li>
 <li>
-<span class=flex>Meet Ui</span>
-</li>
-</ul>
-</li>
-<li>
-<span class=flex>Misc</span>
-</li>
-<li>
-<input type=checkbox id=navtree-51f8a5ee class=gdoc-nav__toggle>
-<label for=navtree-51f8a5ee class="flex justify-between">
-<span class=flex>Ubuntu18</span><svg class="icon gdoc_keyborad_arrow_left"><use xlink:href="#gdoc_keyborad_arrow_left"/></svg><svg class="icon gdoc_keyborad_arrow_down hidden"><use xlink:href="#gdoc_keyborad_arrow_down"/></svg>
-</label>
-<ul class=gdoc-nav__list>
-<li>
-<span class=flex>Virtualbox</span>
-<ul class=gdoc-nav__list>
-<li>
 <span class=flex>
-<a href=/ubuntu18/virtualbox/setup/ class=gdoc-nav__entry>
-Setup
-</a>
-</span>
-</li>
-<li>
-<span class=flex>
-<a href=/ubuntu18/virtualbox/network/ class=gdoc-nav__entry>
-Network
+<a href=/JitsiTranscription/MeetUI/ class=gdoc-nav__entry>
+Meet Ui
 </a>
 </span>
 </li>
 </ul>
 </li>
 <li>
-<span class=flex>Vosk</span>
-<ul class=gdoc-nav__list>
-<li>
 <span class=flex>
-<a href=/ubuntu18/vosk/python/ class=gdoc-nav__entry>
-Python Setup
+<a href=/Vosk/ class=gdoc-nav__entry>
+Vosk
 </a>
 </span>
-</li>
-<li>
-<span class=flex>
-<a href=/ubuntu18/vosk/vosk/ class=gdoc-nav__entry>
-Setup
-</a>
-</span>
-</li>
-</ul>
-</li>
-<li>
-<span class=flex>Jitsi</span>
-<ul class=gdoc-nav__list>
-<li>
-<span class=flex>
-<a href=/ubuntu18/jitsi/logging/ class=gdoc-nav__entry>
-Logging
-</a>
-</span>
-</li>
-<li>
-<span class=flex>
-<a href=/ubuntu18/jitsi/setup/ class=gdoc-nav__entry>
-Setup
-</a>
-</span>
-</li>
-<li>
-<span class=flex>
-<a href=/ubuntu18/jitsi/configuration/ class=gdoc-nav__entry>
-Transcription Config
-</a>
-</span>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<span class=flex>Errors</span>
-<ul class=gdoc-nav__list>
-<li>
-<span class=flex>
-<a href=/errors/prosody/ class=gdoc-nav__entry>
-Prosody
-</a>
-</span>
-</li>
-</ul>
 </li>
 </ul>
 </section>
@@ -191,9 +108,12 @@ hidden" itemprop=breadcrumb>
 </div>
 <article class="gdoc-markdown gdoc-markdown__align--left">
 <h1>Step by Step Dev</h1>
+<blockquote class="gdoc-hint danger">
+Update Sep 2021: I am no longer actively developing with Jitsi and Vosk, so please bear in mind that these docs may be outdated by the time you read them. Previously, I wrote a lot of documentation about using Jitsi and Vosk, however, it was stored in a different format and different application. I am working (as of sept 2021) to port those docs to this site in my free time.
+</blockquote>
 <p>Welcome!</p>
-<p>Here you will find step by step instructions on how to set up Jitsi Meet (with transcription) inside a VirtualBox virtual machine running Ubuntu 18.04 Server.</p>
-<p>I wrote these instructions keeping in mind what a beginner version of myself would have appreciated.</p>
+<p>Here you will find step by step instructions on how to set up Jitsi Meet (with transcription using Vosk) for Linux machines (I mostly tested things on Debian, but Ubuntu should work too)</p>
+<p>I wrote these instructions keeping in mind what a beginner version of myself (non-Linux user, completely naive about Jitsi and Vosk) would have appreciated. It took me roughly two months to figure out how to use and modify Jitsi, Jigasi, and Vosk, given my inexperience with software development and the meh documentation for Jitsi and Vosk that was available at the time (summer 2021).</p>
 <p>Hopefully, you find these helpful.</p>
 <p>- AK</p>
 </article>

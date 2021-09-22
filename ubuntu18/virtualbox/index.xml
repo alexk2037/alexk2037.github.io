@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Step by Step Dev</title><link>https://alexk2037.github.io/ubuntu18/virtualbox/</link><description>Recent content on Step by Step Dev</description><generator>Hugo -- gohugo.io</generator><atom:link href="https://alexk2037.github.io/ubuntu18/virtualbox/index.xml" rel="self" type="application/rss+xml"/><item><title>Setup</title><link>https://alexk2037.github.io/ubuntu18/virtualbox/setup/</link><pubDate>Sat, 24 Jul 2021 19:21:54 -0400</pubDate><guid>https://alexk2037.github.io/ubuntu18/virtualbox/setup/</guid><description>What does the author have?
-I have:
-a 2017 HP laptop running Windows 10 Home edition (64-bit) i5 Intel processor 8 GB of RAM I have also enabled virtualization in my BIOS (necessary) and have WSL2 enabled (not necessary, but convenient for me)
-VirtualBox Install VirtualBox from here
-Follow along with this tutorial to familiarize yourself with Virtualbox
-Ubuntu 18.04 Server Download Ubuntu 18.</description></item><item><title>Network</title><link>https://alexk2037.github.io/ubuntu18/virtualbox/network/</link><pubDate>Sat, 24 Jul 2021 19:23:05 -0400</pubDate><guid>https://alexk2037.github.io/ubuntu18/virtualbox/network/</guid><description>Ethernet I have an ethernet cable
-Virtualbox Network Setting Details ↕ After turning your VM off, go to settings. Under Network configure the following:
-Adapter 1: Bridged Adapter, Realteck PCIe GbE Family Controller #2
-Don&amp;rsquo;t use Intel (R) Dualband Wireless-AC 3168 if you use Bridged Adapter with an ethernet cable Configure static IP From the article How to configure static ip address on Ubuntu (Linuxize), read the paragraph under &amp;ldquo;Configuring Static IP address using DHCP&amp;rdquo;</description></item></channel></rss>

@@ -3,7 +3,8 @@
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <meta name=color-scheme content="light dark">
-<meta name=description content="Step by Step Dev">
+<meta name=description content="Enable Subtitle Button    For some reason, at the time of writing (summer 2021), the ‘Start Subtitles’ button is missing by default. To fix this, uncomment transcribingEnabled and set to true, then uncomment the toolbarButtons array
+/etc/jitsi/meet/$(hostname -f)-config.js ↕  ... // Whether to enable live streaming or not.  // liveStreamingEnabled: false,  // Transcription (in interface_config,  // subtitles and buttons can be configured)  transcribingEnabled: true, // Enables automatic turning on captions when recording is started  // autoCaptionOnRecord: false, .">
 <title>Meet Ui | Step by Step Dev</title>
 <link rel=icon href=/favicon/favicon-32x32.png type=image/x-icon>
 <script src=/js/darkmode-ce906ea916.min.js></script>
@@ -48,21 +49,18 @@
 <h2>Navigation</h2>
 <ul class=gdoc-nav__list>
 <li>
-<input type=checkbox id=navtree-5e21d666 class=gdoc-nav__toggle>
-<label for=navtree-5e21d666 class="flex justify-between">
-<span class=flex>Debian10</span><svg class="icon gdoc_keyborad_arrow_left"><use xlink:href="#gdoc_keyborad_arrow_left"/></svg><svg class="icon gdoc_keyborad_arrow_down hidden"><use xlink:href="#gdoc_keyborad_arrow_down"/></svg>
-</label>
-<ul class=gdoc-nav__list>
-<li>
-<span class=flex>Jitsi</span>
+<span class=flex>
+<a href=/BasicLinux/ class=gdoc-nav__entry>
+Basic Linux
+</a>
+</span>
 </li>
 <li>
-<span class=flex>Vm</span>
-</li>
-<li>
-<span class=flex>Vosk</span>
-</li>
-</ul>
+<span class=flex>
+<a href=/InstallJitsi/ class=gdoc-nav__entry>
+Install Jitsi
+</a>
+</span>
 </li>
 <li>
 <input type=checkbox id=navtree-7550288a class=gdoc-nav__toggle checked>
@@ -81,96 +79,20 @@ Logs Settings
 </span>
 </li>
 <li>
-<span class=flex>Meet Ui</span>
-</li>
-</ul>
-</li>
-<li>
-<span class=flex>Misc</span>
-</li>
-<li>
-<input type=checkbox id=navtree-51f8a5ee class=gdoc-nav__toggle>
-<label for=navtree-51f8a5ee class="flex justify-between">
-<span class=flex>Ubuntu18</span><svg class="icon gdoc_keyborad_arrow_left"><use xlink:href="#gdoc_keyborad_arrow_left"/></svg><svg class="icon gdoc_keyborad_arrow_down hidden"><use xlink:href="#gdoc_keyborad_arrow_down"/></svg>
-</label>
-<ul class=gdoc-nav__list>
-<li>
-<span class=flex>Virtualbox</span>
-<ul class=gdoc-nav__list>
-<li>
 <span class=flex>
-<a href=/ubuntu18/virtualbox/setup/ class=gdoc-nav__entry>
-Setup
-</a>
-</span>
-</li>
-<li>
-<span class=flex>
-<a href=/ubuntu18/virtualbox/network/ class=gdoc-nav__entry>
-Network
+<a href=/JitsiTranscription/MeetUI/ class="gdoc-nav__entry is-active">
+Meet Ui
 </a>
 </span>
 </li>
 </ul>
 </li>
 <li>
-<span class=flex>Vosk</span>
-<ul class=gdoc-nav__list>
-<li>
 <span class=flex>
-<a href=/ubuntu18/vosk/python/ class=gdoc-nav__entry>
-Python Setup
+<a href=/Vosk/ class=gdoc-nav__entry>
+Vosk
 </a>
 </span>
-</li>
-<li>
-<span class=flex>
-<a href=/ubuntu18/vosk/vosk/ class=gdoc-nav__entry>
-Setup
-</a>
-</span>
-</li>
-</ul>
-</li>
-<li>
-<span class=flex>Jitsi</span>
-<ul class=gdoc-nav__list>
-<li>
-<span class=flex>
-<a href=/ubuntu18/jitsi/logging/ class=gdoc-nav__entry>
-Logging
-</a>
-</span>
-</li>
-<li>
-<span class=flex>
-<a href=/ubuntu18/jitsi/setup/ class=gdoc-nav__entry>
-Setup
-</a>
-</span>
-</li>
-<li>
-<span class=flex>
-<a href=/ubuntu18/jitsi/configuration/ class=gdoc-nav__entry>
-Transcription Config
-</a>
-</span>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<span class=flex>Errors</span>
-<ul class=gdoc-nav__list>
-<li>
-<span class=flex>
-<a href=/errors/prosody/ class=gdoc-nav__entry>
-Prosody
-</a>
-</span>
-</li>
-</ul>
 </li>
 </ul>
 </section>
@@ -186,6 +108,53 @@ hidden" itemprop=breadcrumb>
 </div>
 <article class="gdoc-markdown gdoc-markdown__align--left">
 <h1>Meet Ui</h1>
+<div class=gdoc-page__anchorwrap>
+<h3 id=enable-subtitle-button>
+Enable Subtitle Button
+<a data-clipboard-text=https://alexk2037.github.io/JitsiTranscription/MeetUI/#enable-subtitle-button class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Enable Subtitle Button" href=#enable-subtitle-button><svg class="icon gdoc_link"><use xlink:href="#gdoc_link"/></svg>
+</a>
+</h3>
+</div><p>For some reason, at the time of writing (summer 2021), the ‘Start Subtitles’ button is missing by default. To fix this, uncomment <code>transcribingEnabled</code>
+and set to <code>true</code>, then uncomment the <code>toolbarButtons</code> array</p>
+<div class=gdoc-expand>
+<label class="gdoc-expand__head flex justify-between" for=68cb77a1-0>
+<span>/etc/jitsi/meet/$(hostname -f)-config.js</span>
+<span>↕</span>
+</label>
+<input id=68cb77a1-0 type=checkbox class="gdoc-expand__control hidden">
+<div class="gdoc-markdown--nested gdoc-expand__content">
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=p>...</span>
+    <span class=c1>// Whether to enable live streaming or not.
+</span><span class=c1></span>    <span class=c1>// liveStreamingEnabled: false,
+</span><span class=c1></span>        <span class=c1>// Transcription (in interface_config,
+</span><span class=c1></span>    <span class=c1>// subtitles and buttons can be configured)
+</span><span class=c1></span>    <span class=nx>transcribingEnabled</span><span class=o>:</span> <span class=kc>true</span><span class=p>,</span>
+    <span class=c1>// Enables automatic turning on captions when recording is started
+</span><span class=c1></span>    <span class=c1>// autoCaptionOnRecord: false,
+</span><span class=c1></span><span class=p>...</span>
+    <span class=c1>// Moved from interfaceConfig(TOOLBAR_BUTTONS).
+</span><span class=c1></span>    <span class=c1>// The name of the toolbar buttons to display in the toolbar, including the
+</span><span class=c1></span>    <span class=c1>// &#34;More actions&#34; menu. If present, the button will display. Exceptions are
+</span><span class=c1></span>    <span class=c1>// &#34;livestreaming&#34; and &#34;recording&#34; which also require being a moderator and
+</span><span class=c1></span>    <span class=c1>// some other values in config.js to be enabled. Also, the &#34;profile&#34; button will
+</span><span class=c1></span>    <span class=c1>// not display for users with a JWT.
+</span><span class=c1></span>    <span class=c1>// Notes:
+</span><span class=c1></span>    <span class=c1>// - it&#39;s impossible to choose which buttons go in the &#34;More actions&#34; menu
+</span><span class=c1></span>    <span class=c1>// - it&#39;s impossible to control the placement of buttons
+</span><span class=c1></span>    <span class=c1>// - &#39;desktop&#39; controls the &#34;Share your screen&#34; button
+</span><span class=c1></span>    <span class=c1>// - if `toolbarButtons` is undefined, we fallback to enabling all buttons on the UI
+</span><span class=c1></span>    <span class=nx>toolbarButtons</span><span class=o>:</span> <span class=p>[</span>
+       <span class=s1>&#39;microphone&#39;</span><span class=p>,</span> <span class=s1>&#39;camera&#39;</span><span class=p>,</span> <span class=s1>&#39;closedcaptions&#39;</span><span class=p>,</span> <span class=s1>&#39;desktop&#39;</span><span class=p>,</span> <span class=s1>&#39;embedmeeting&#39;</span><span class=p>,</span> <span class=s1>&#39;fullscreen&#39;</span><span class=p>,</span>
+       <span class=s1>&#39;fodeviceselection&#39;</span><span class=p>,</span> <span class=s1>&#39;hangup&#39;</span><span class=p>,</span> <span class=s1>&#39;profile&#39;</span><span class=p>,</span> <span class=s1>&#39;chat&#39;</span><span class=p>,</span> <span class=s1>&#39;recording&#39;</span><span class=p>,</span>
+       <span class=s1>&#39;livestreaming&#39;</span><span class=p>,</span> <span class=s1>&#39;etherpad&#39;</span><span class=p>,</span> <span class=s1>&#39;sharedvideo&#39;</span><span class=p>,</span> <span class=s1>&#39;shareaudio&#39;</span><span class=p>,</span> <span class=s1>&#39;settings&#39;</span><span class=p>,</span> <span class=s1>&#39;raisehand&#39;</span><span class=p>,</span>
+       <span class=s1>&#39;videoquality&#39;</span><span class=p>,</span> <span class=s1>&#39;filmstrip&#39;</span><span class=p>,</span> <span class=s1>&#39;invite&#39;</span><span class=p>,</span> <span class=s1>&#39;feedback&#39;</span><span class=p>,</span> <span class=s1>&#39;stats&#39;</span><span class=p>,</span> <span class=s1>&#39;shortcuts&#39;</span><span class=p>,</span>
+       <span class=s1>&#39;tileview&#39;</span><span class=p>,</span> <span class=s1>&#39;select-background&#39;</span><span class=p>,</span> <span class=s1>&#39;download&#39;</span><span class=p>,</span> <span class=s1>&#39;help&#39;</span><span class=p>,</span> <span class=s1>&#39;mute-everyone&#39;</span><span class=p>,</span> <span class=s1>&#39;mute-video-everyone&#39;</span><span class=p>,</span> <span class=s1>&#39;security&#39;</span>
+    <span class=p>],</span>
+<span class=p>...</span>
+</code></pre></div>
+</div>
+</div>
+<p>Now start a meeting and check that the ‘Start Subtitles’ button is present.</p>
 </article>
 <div class="gdoc-page__footer flex flex-wrap justify-between">
 </div>
